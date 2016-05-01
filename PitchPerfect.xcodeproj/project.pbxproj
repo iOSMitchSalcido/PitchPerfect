@@ -16,6 +16,7 @@
 		8624D8601CD52F0600D5B9E8 /* PitchPerfectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624D85F1CD52F0600D5B9E8 /* PitchPerfectUITests.swift */; };
 		8641468B1CD5879D00DADE8B /* PlaySoundsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8641468A1CD5879D00DADE8B /* PlaySoundsViewController.swift */; };
 		8641468D1CD5926700DADE8B /* PlaySoundsViewController+Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8641468C1CD5926700DADE8B /* PlaySoundsViewController+Audio.swift */; };
+		86539A861CD6CB1C0076825A /* AboutThisApp.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 86539A851CD6CB1C0076825A /* AboutThisApp.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		8624D8611CD52F0600D5B9E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8641468A1CD5879D00DADE8B /* PlaySoundsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaySoundsViewController.swift; sourceTree = "<group>"; };
 		8641468C1CD5926700DADE8B /* PlaySoundsViewController+Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PlaySoundsViewController+Audio.swift"; sourceTree = "<group>"; };
+		86539A851CD6CB1C0076825A /* AboutThisApp.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = AboutThisApp.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 		8624D83E1CD52F0600D5B9E8 /* PitchPerfect */ = {
 			isa = PBXGroup;
 			children = (
+				86539A851CD6CB1C0076825A /* AboutThisApp.rtf */,
 				8624D83F1CD52F0600D5B9E8 /* AppDelegate.swift */,
 				8624D8411CD52F0600D5B9E8 /* RecordSoundsViewController.swift */,
 				8641468A1CD5879D00DADE8B /* PlaySoundsViewController.swift */,
@@ -237,6 +240,7 @@
 			files = (
 				8624D84A1CD52F0600D5B9E8 /* LaunchScreen.storyboard in Resources */,
 				8624D8471CD52F0600D5B9E8 /* Assets.xcassets in Resources */,
+				86539A861CD6CB1C0076825A /* AboutThisApp.rtf in Resources */,
 				8624D8451CD52F0600D5B9E8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

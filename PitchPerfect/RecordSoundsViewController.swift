@@ -32,8 +32,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var playLabel: UILabel!
     
     // elapsed time recording length
-    var elapsedTime = 0.0
-    var timer: NSTimer!
+    var elapsedTime = 0.0   // counts in tenths of a second
+    var timer: NSTimer!     // fires every tenth second
     
     // ref to recorder
     var audioRecorder:AVAudioRecorder!
@@ -68,6 +68,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         if flag {
             
             // recording was successful. Play button and label are enabled/highlighted
+            // ..return to a ready to record state
             recordingLabel.text = READY_TO_RECORD
             playButton.enabled = true
             playLabel.alpha = 1.0
@@ -81,7 +82,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    // action for timer. Timer fires each tenth of a second.
+    // action for timer
     func timerFired(sender: AnyObject) {
 
         // increment timer, counts in tenths of a second
@@ -100,7 +101,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         // test for greater than 599 tenths of a second..limit to one minute of recording
         if elapsedTime > 599 {
             
-            // at max record time.
+            // at maximum record time.
             elapsedTimeLabel.text = "1'00.0"
             ceaseRecording()
         }
