@@ -22,10 +22,10 @@
                                 <rect key="frame" x="30" y="72" width="540" height="520"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="FmU-kC-C5L">
-                                        <rect key="frame" x="0.0" y="0.0" width="540" height="173.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="540" height="130"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UO5-eW-IAF">
-                                                <rect key="frame" x="0.0" y="73" width="540" height="100"/>
+                                                <rect key="frame" x="0.0" y="30" width="540" height="100"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <state key="normal" image="recordButton"/>
                                                 <connections>
@@ -35,10 +35,10 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8Q7-R2-q2W">
-                                        <rect key="frame" x="0.0" y="173" width="540" height="173"/>
+                                        <rect key="frame" x="0.0" y="130" width="540" height="130"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to Record" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXq-rC-dTI">
-                                                <rect key="frame" x="216.5" y="0.0" width="107" height="173"/>
+                                                <rect key="frame" x="216" y="0.0" width="107" height="130"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -47,7 +47,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="xN3-fl-tt5">
-                                        <rect key="frame" x="0.0" y="346" width="540" height="173.5"/>
+                                        <rect key="frame" x="0.0" y="260" width="540" height="130"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwM-yR-4WM">
                                                 <rect key="frame" x="0.0" y="0.0" width="540" height="50"/>
@@ -55,6 +55,25 @@
                                                 <state key="normal" image="stopRecordingButton"/>
                                                 <connections>
                                                     <action selector="stopRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hvx-yf-epZ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Ysv-gR-SAr">
+                                        <rect key="frame" x="0.0" y="390" width="540" height="130"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mff-HR-OoC">
+                                                <rect key="frame" x="0.0" y="0.0" width="270" height="130"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcE-ss-gS3">
+                                                <rect key="frame" x="270" y="0.0" width="270" height="130"/>
+                                                <state key="normal" title="Play"/>
+                                                <connections>
+                                                    <action selector="playButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Vo-hZ-DM7"/>
+                                                    <segue destination="NaW-XB-0MZ" kind="show" identifier="playAudioSegue" id="yAs-70-wkE"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -72,10 +91,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Pitch Perfect" id="UOy-m1-28h"/>
                     <connections>
+                        <outlet property="elapsedTimeLabel" destination="Mff-HR-OoC" id="Cb1-9B-6aD"/>
+                        <outlet property="playButton" destination="IcE-ss-gS3" id="LDT-Hn-3tT"/>
                         <outlet property="recordButton" destination="UO5-eW-IAF" id="8VH-59-ZvU"/>
                         <outlet property="recordingLabel" destination="pXq-rC-dTI" id="TIz-h8-kff"/>
                         <outlet property="stopRecordingButton" destination="LwM-yR-4WM" id="zsK-EW-eTm"/>
-                        <segue destination="NaW-XB-0MZ" kind="show" identifier="stopRecordingSegue" id="PvZ-2V-dqe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
