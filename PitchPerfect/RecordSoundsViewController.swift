@@ -126,6 +126,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         try! audioSession.setActive(false)
     }
     
+    @IBAction func playButtonPressed(sender: AnyObject) {
+        
+        performSegueWithIdentifier("playAudioSegue", sender: sender)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "playAudioSegue" {
