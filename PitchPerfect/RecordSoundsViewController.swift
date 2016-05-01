@@ -20,6 +20,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // constants for recording label states
     let READY_TO_RECORD = "Tap Mic to Record"
     let RECORDING_IN_PROGRESS = "Recording in Progress"
+    let BAD_RECORDING_MESSAGE = "Bad Recording. Retry"
     
     // ref to buttons and labels
     @IBOutlet weak var recordButton: UIButton!
@@ -28,13 +29,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var elapsedTimeLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
     
-    // for timing record length
+    // for timing recording length
     var elapsedTime = 0.0
     var timer: NSTimer!
     
     // ref to recorder
     var audioRecorder:AVAudioRecorder!
-
+    
     override func viewWillAppear(animated: Bool) {
         
         // disable stopRecordingButton when view appears
@@ -47,34 +48,16 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // AVAudioRecorder delegate function
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         
-        playButton.enabled = true
         stopRecordingButton.enabled = false
-        recordingLabel.text = READY_TO_RECORD
         recordButton.enabled = true
-        /*
-        if (flag) {
-            self.performSegueWithIdentifier("stopRecordingSegue", sender: audioRecorder.url)
+        
+        if flag {
+            recordingLabel.text = READY_TO_RECORD
+            playButton.enabled = true
         }
         else {
-            print("saving of recording failed")
-        }
- */
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        if segue.identifier == "playAudioSegue" {
-            
-            if let url = sender as? NSURL {
-              
-                let playSoundsVC = segue.destinationViewController as! PlaySoundsViewController
-                let recordAudioURL = url
-                print(recordAudioURL)
-                playSoundsVC.recordedAudioURL = recordAudioURL
-            }
-            else {
-                print("bad URL")
-            }
+            recordingLabel.text = BAD_RECORDING_MESSAGE
+            playButton.enabled = false
         }
     }
     
@@ -93,12 +76,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             timeString = "\(seconds)." + timeString
         }
 
-        // test for greater than 599 tenths of a second..limit to one minutes of recording
+        // test for greater than 599 tenths of a second..limit to one minute of recording
         if elapsedTime > 599 {
             
             // at max record time.
             elapsedTimeLabel.text = "1'00.0"
-            timer.invalidate()
+            ceaseRecording()
         }
         else {
             elapsedTimeLabel.text = "0'" + timeString
@@ -132,6 +115,10 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     @IBAction func stopRecording(sender: AnyObject) {
+        ceaseRecording()
+    }
+    
+    func ceaseRecording() {
         
         timer.invalidate()
         audioRecorder.stop()
@@ -139,8 +126,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         try! audioSession.setActive(false)
     }
     
-    @IBAction func playButtonPressed(sender: AnyObject) {
-        self.performSegueWithIdentifier("playAudioSegue", sender: audioRecorder.url)
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "playAudioSegue" {
+            let playSoundsVC = segue.destinationViewController as! PlaySoundsViewController
+            let recordAudioURL = audioRecorder.url
+            playSoundsVC.recordedAudioURL = recordAudioURL
+        }
     }
 }
 
