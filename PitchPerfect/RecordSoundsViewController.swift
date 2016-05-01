@@ -29,6 +29,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var elapsedTimeLabel: UILabel!
     @IBOutlet weak var elapsedTimeTitleLabel: UILabel!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var playLabel: UILabel!
     
     // for timing recording length
     var elapsedTime = 0.0
@@ -46,6 +47,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         elapsedTimeLabel.text = "0'00.0"
         elapsedTimeLabel.alpha = 0.5
         elapsedTimeTitleLabel.alpha = 0.5
+        playLabel.alpha = 0.5
     }
     
     // AVAudioRecorder delegate function
@@ -57,10 +59,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         if flag {
             recordingLabel.text = READY_TO_RECORD
             playButton.enabled = true
+            playLabel.alpha = 1.0
         }
         else {
             recordingLabel.text = BAD_RECORDING_MESSAGE
             playButton.enabled = false
+            playLabel.alpha = 0.5
         }
     }
     
