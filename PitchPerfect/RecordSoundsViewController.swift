@@ -9,6 +9,12 @@
 import UIKit
 import AVFoundation
 
+/*
+ About RecordSoundsViewController.swift:
+ Handle recording audio thru iOS device. Provide "record" button to initiate recording, and "stop" button
+ to cease recording. Also show label to indicate recording status
+ */
+
 class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
 
     // ref to buttons and labels
@@ -25,7 +31,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         stopRecordingButton.enabled = false
     }
     
-    // delegate function
+    // AVAudioRecorder delegate function
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         
         if (flag) {
