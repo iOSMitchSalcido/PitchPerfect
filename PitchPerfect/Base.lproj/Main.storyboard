@@ -65,7 +65,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ggd-z9-u72">
                                                 <rect key="frame" x="0.0" y="0.0" width="270" height="130"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRq-VP-aXJ">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRq-VP-aXJ" userLabel="labelForSpacing">
                                                         <rect key="frame" x="0.0" y="0.0" width="270" height="33"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -83,7 +83,7 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijv-KR-j03">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ijv-KR-j03" userLabel="labelForSpacing">
                                                         <rect key="frame" x="0.0" y="98" width="270" height="33"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -114,6 +114,7 @@
                     <navigationItem key="navigationItem" title="Pitch Perfect" id="UOy-m1-28h"/>
                     <connections>
                         <outlet property="elapsedTimeLabel" destination="Mff-HR-OoC" id="Cb1-9B-6aD"/>
+                        <outlet property="elapsedTimeTitleLabel" destination="An4-t7-FiL" id="eax-37-Stu"/>
                         <outlet property="playButton" destination="IcE-ss-gS3" id="LDT-Hn-3tT"/>
                         <outlet property="recordButton" destination="UO5-eW-IAF" id="8VH-59-ZvU"/>
                         <outlet property="recordingLabel" destination="pXq-rC-dTI" id="TIz-h8-kff"/>
