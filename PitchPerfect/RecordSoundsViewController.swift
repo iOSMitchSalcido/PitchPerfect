@@ -5,15 +5,14 @@
 //  Created by Online Training on 4/30/16.
 //  Copyright © 2016 Mitch Salcido. All rights reserved.
 //
-
-import UIKit
-import AVFoundation
-
 /*
  About RecordSoundsViewController.swift:
  Handle recording audio thru iOS device. Provide "record" button to initiate recording, and "stop" button
  to cease recording. Also show label to indicate recording status
  */
+
+import UIKit
+import AVFoundation
 
 class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
 
@@ -32,8 +31,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var playLabel: UILabel!
     
     // elapsed time recording length
-    var elapsedTime = 0.0   // counts in tenths of a second
-    var timer: NSTimer!     // fires every tenth second
+    var elapsedTime: Int = 0    // counts in tenths of a second
+    var timer: NSTimer!         // fires every tenth second
     
     // ref to recorder
     var audioRecorder:AVAudioRecorder!
@@ -90,7 +89,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         
         // form elapsed time string
         var timeString = "\(Int(elapsedTime % 10))"
-        let seconds = Int(elapsedTime / 10.0)
+        let seconds = Int(Float(elapsedTime) / 10.0)
         if seconds < 10 {
             timeString = "0\(seconds)." + timeString
         }
