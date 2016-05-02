@@ -195,14 +195,15 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             stopRecordingButton.enabled = false
             
             // test for non-nil audioRecorder
-            // ..valid audio still present
             if audioRecorder != nil {
+                // ..valid audio still present
                 elapsedTimeTitleLabel.alpha = 1.0
                 elapsedTimeLabel.alpha = 1.0
                 playButton.enabled = true
                 playLabel.alpha = 1.0
             }
             else {
+                // no audio yet, nothing to play back
                 elapsedTimeTitleLabel.alpha = 0.5
                 elapsedTimeLabel.text = "0'00.0"
                 elapsedTimeLabel.alpha = 0.5
@@ -210,6 +211,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
                 playLabel.alpha = 0.5
             }
         case .Recording:
+            // currently recording
             recordButton.enabled = false
             recordingLabel.text = RECORDING_IN_PROGRESS
             stopRecordingButton.enabled = true
@@ -218,6 +220,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             playButton.enabled = false
             playLabel.alpha = 0.5
         case .Failed:
+            // recording failed
             configureRecordUIState(.Ready)
             recordingLabel.text = BAD_RECORDING_MESSAGE
         }
