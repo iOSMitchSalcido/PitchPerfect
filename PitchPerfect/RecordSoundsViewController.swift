@@ -37,16 +37,15 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     // ref to recorder
     var audioRecorder:AVAudioRecorder!
     
+    // enum for record state
+    enum RecordState {
+        case Ready, Recording, Failed
+    }
+    
     override func viewWillAppear(animated: Bool) {
         
         // set buttons and label to ready to record
-        stopRecordingButton.enabled = false
-        playButton.enabled = false
-        recordingLabel.text = READY_TO_RECORD
-        elapsedTimeLabel.text = "0'00.0"
-        elapsedTimeLabel.alpha = 0.5
-        elapsedTimeTitleLabel.alpha = 0.5
-        playLabel.alpha = 0.5
+        configureRecordUIState(.Ready)
     }
     
     // AVAudioRecorder delegate function
@@ -68,16 +67,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             
             // recording was successful. Play button and label are enabled/highlighted
             // ..return to a ready to record state
-            recordingLabel.text = READY_TO_RECORD
-            playButton.enabled = true
-            playLabel.alpha = 1.0
+            configureRecordUIState(.Ready)
         }
         else {
             
             // recording was not successful. Play button and label are disabled/dimmed
-            recordingLabel.text = BAD_RECORDING_MESSAGE
-            playButton.enabled = false
-            playLabel.alpha = 0.5
+            configureRecordUIState(.Failed)
         }
     }
     
@@ -186,6 +181,45 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             let playSoundsVC = segue.destinationViewController as! PlaySoundsViewController
             let recordAudioURL = audioRecorder.url
             playSoundsVC.recordedAudioURL = recordAudioURL
+        }
+    }
+    
+    // helper function to set UI elements
+    func configureRecordUIState(state: RecordState) {
+        
+        switch state {
+        case .Ready:
+            // ready to record
+            recordButton.enabled = true
+            recordingLabel.text = READY_TO_RECORD
+            stopRecordingButton.enabled = false
+            
+            // test for non-nil audioRecorder
+            // ..valid audio still present
+            if audioRecorder != nil {
+                elapsedTimeTitleLabel.alpha = 1.0
+                elapsedTimeLabel.alpha = 1.0
+                playButton.enabled = true
+                playLabel.alpha = 1.0
+            }
+            else {
+                elapsedTimeTitleLabel.alpha = 0.5
+                elapsedTimeLabel.text = "0'00.0"
+                elapsedTimeLabel.alpha = 0.5
+                playButton.enabled = false
+                playLabel.alpha = 0.5
+            }
+        case .Recording:
+            recordButton.enabled = false
+            recordingLabel.text = RECORDING_IN_PROGRESS
+            stopRecordingButton.enabled = true
+            elapsedTimeTitleLabel.alpha = 1.0
+            elapsedTimeLabel.alpha = 1.0
+            playButton.enabled = false
+            playLabel.alpha = 0.5
+        case .Failed:
+            configureRecordUIState(.Ready)
+            recordingLabel.text = BAD_RECORDING_MESSAGE
         }
     }
 }

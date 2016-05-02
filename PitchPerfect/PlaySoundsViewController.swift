@@ -47,19 +47,26 @@ class PlaySoundsViewController: UIViewController {
         // test for valid audio file
         do {
             audioFile = try AVAudioFile(forReading: recordedAudioURL)
-            configurePlayState(.Ready)
+            configurePlayUIState(.Ready)
         }
         catch {
             // bad file. Player is "broken"..disable all buttons
-            configurePlayState(.Broken)
+            configurePlayUIState(.Broken)
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // stop playing when view disappears
+        stopAudioPlayback()
     }
     
     // function to play audio
     func playAudio(effect: SoundEffect) {
         
         // place buttons in not ready state
-        configurePlayState(.NotReady)
+        configurePlayUIState(.NotReady)
         
         // configure AVAudio classes
         audioPlayerNode = AVAudioPlayerNode()
@@ -109,7 +116,7 @@ class PlaySoundsViewController: UIViewController {
             
             // place UI update on main thread
             NSOperationQueue.mainQueue().addOperationWithBlock() {
-                self.configurePlayState(.Ready)
+                self.configurePlayUIState(.Ready)
             }
         }
         
@@ -146,6 +153,16 @@ class PlaySoundsViewController: UIViewController {
     // action for stop button
     @IBAction func stopButtonPressed(sender: AnyObject) {
         
+        // stop audio
+        stopAudioPlayback()
+        
+        // update UI to ready state
+        configurePlayUIState(.Ready)
+    }
+    
+    // helper function, stop audio playback
+    func stopAudioPlayback() {
+        
         // verify audioPlayerNode, stop
         if let audioPlayerNode = audioPlayerNode {
             audioPlayerNode.stop()
@@ -156,13 +173,10 @@ class PlaySoundsViewController: UIViewController {
             audioEngine.stop()
             audioEngine.reset()
         }
-        
-        // update UI to ready state
-        configurePlayState(.Ready)
     }
     
     // helper function to enable/disable buttons in view
-    func configurePlayState(state: PlayState) {
+    func configurePlayUIState(state: PlayState) {
         
         switch state {
         case .Ready:
@@ -182,7 +196,7 @@ class PlaySoundsViewController: UIViewController {
             reverbButton.enabled = false
             stopButton.enabled = true
         case .Broken:
-            configurePlayState(.NotReady)
+            configurePlayUIState(.NotReady)
             stopButton.enabled = false
         }
     }
