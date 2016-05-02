@@ -50,6 +50,7 @@ class PlaySoundsViewController: UIViewController {
             configurePlayState(.Ready)
         }
         catch {
+            // bad file. Player is "broken"..disable all buttons
             configurePlayState(.Broken)
         }
     }
@@ -68,7 +69,7 @@ class PlaySoundsViewController: UIViewController {
         audioEngine.reset()
         audioEngine.attachNode(audioPlayerNode)
         
-        // declare AVAudioNode. Will be set in switch statement
+        // declare AVAudioNode. Will be assigned in switch statement
         var audioNode: AVAudioNode!
         
         // create sound effect
