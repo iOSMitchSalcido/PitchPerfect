@@ -71,9 +71,11 @@ class PlaySoundsViewController: UIViewController {
         // configure AVAudio classes
         audioPlayerNode = AVAudioPlayerNode()
         audioEngine = AVAudioEngine()
-        audioPlayerNode.stop()
-        audioEngine.stop()
-        audioEngine.reset()
+        
+        // 160502 edit per reviewers comment. Remove redundant code. Instead call
+        // function 'stopAudioPlayback
+        stopAudioPlayback()
+        
         audioEngine.attachNode(audioPlayerNode)
         
         // declare AVAudioNode. Will be assigned in switch statement
