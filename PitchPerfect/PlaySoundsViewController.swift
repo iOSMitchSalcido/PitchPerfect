@@ -41,6 +41,12 @@ class PlaySoundsViewController: UIViewController {
         case Ready, NotReady, Broken
     }
     
+    // enum for alert generation
+    enum AlertState: String {
+        case AudioEngineFail = "Unable to start audio engine"
+        case BadAudioFile = "Unable to read audio file"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +58,7 @@ class PlaySoundsViewController: UIViewController {
         catch {
             // bad file. Player is "broken"..disable all buttons
             configurePlayUIState(.Broken)
+            createAlert(AlertState.BadAudioFile)
         }
     }
     
@@ -111,10 +118,17 @@ class PlaySoundsViewController: UIViewController {
         }
         
         // configure engine and player, attach/connect nodes
+        let mainMixer = audioEngine.mainMixerNode // added 160504, was crashing on real device
         audioEngine.attachNode(audioNode)
-        audioEngine.connect(audioPlayerNode, to: audioNode, format: nil)
-        audioEngine.connect(audioNode, to: audioEngine.outputNode, format: audioFile.processingFormat)
-        audioPlayerNode.scheduleFile(audioFile, atTime: nil) { () -> Void in
+        audioEngine.connect(audioPlayerNode,
+                            to: audioNode,
+                            format: mainMixer.outputFormatForBus(0))
+        audioEngine.connect(audioNode,
+                            to: audioEngine.outputNode,
+                            format: mainMixer.outputFormatForBus(0))
+        audioPlayerNode.scheduleFile(audioFile, atTime: nil) {
+            
+            () -> Void in
             
             // place UI update on main thread
             NSOperationQueue.mainQueue().addOperationWithBlock() {
@@ -128,7 +142,7 @@ class PlaySoundsViewController: UIViewController {
             audioPlayerNode.play()
         }
         catch {
-            print("unable to play audio")
+            createAlert(AlertState.AudioEngineFail)
         }
     }
     
@@ -201,5 +215,20 @@ class PlaySoundsViewController: UIViewController {
             configurePlayUIState(.NotReady)
             stopButton.enabled = false
         }
+    }
+    
+    // helper function to create and present an alert
+    func createAlert(alert: AlertState) {
+        
+        let alert = UIAlertController(title: alert.rawValue,
+                                      message: nil,
+                                      preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .Cancel,
+                                         handler: nil)
+        
+        alert.addAction(cancelAction)
+        presentViewController(alert, animated: true, completion: nil)
     }
 }

@@ -42,6 +42,13 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         case Ready, Recording, Failed
     }
     
+    // enum for alert generation
+    enum AlertState: String {
+        case BadRecording = "Did not record correctly"
+        case BadConfig = "Unable to configure recorder"
+        case BadSession = "Unable to configure audio session"
+    }
+    
     override func viewWillAppear(animated: Bool) {
         
         // set buttons and label to ready to record
@@ -73,6 +80,9 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             
             // recording was not successful. Play button and label are disabled/dimmed
             configureRecordUIState(.Failed)
+            
+            // show alert
+            createAlert(AlertState.BadRecording)
         }
     }
     
@@ -108,7 +118,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     // action for recordButton
     @IBAction func recordAudio(sender: AnyObject) {
-        
+            
         // disable playButton when recording
         playButton.enabled = false
         
@@ -129,19 +139,34 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         
         // retrieve session
         let session = AVAudioSession.sharedInstance()
-        try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
         
-        // create and config audioRecorder
-        try! audioRecorder = AVAudioRecorder(URL: filePath!, settings: [:])
-        audioRecorder.delegate = self
-        audioRecorder.meteringEnabled = true
-        audioRecorder.prepareToRecord()
-        audioRecorder.record()
-        
-        // preset elapsed time, create timer and add to run loop to start
-        elapsedTime = 0
-        timer = NSTimer(timeInterval: 0.1, target: self, selector: #selector(RecordSoundsViewController.timerFired(_:)), userInfo: nil, repeats: true)
-        NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        // ..create and config audioRecorder
+
+        // test for throw when setting session category
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            
+            // test for throw when retireving recorder
+            do {
+                try audioRecorder = AVAudioRecorder(URL: filePath!, settings: [:])
+                
+                audioRecorder.delegate = self
+                audioRecorder.meteringEnabled = true
+                audioRecorder.prepareToRecord()
+                audioRecorder.record()
+                
+                // preset elapsed time, create timer and add to run loop to start
+                elapsedTime = 0
+                timer = NSTimer(timeInterval: 0.1, target: self, selector: #selector(RecordSoundsViewController.timerFired(_:)), userInfo: nil, repeats: true)
+                NSRunLoop.mainRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+            }
+            catch {
+                createAlert(AlertState.BadConfig)
+            }
+        }
+        catch {
+            createAlert(AlertState.BadSession)
+        }
     }
     
     // action for stopRecording button
@@ -161,7 +186,14 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         
         // deactivate session
         let audioSession = AVAudioSession.sharedInstance()
-        try! audioSession.setActive(false)
+        
+        // test for throw when setting session active state
+        do {
+            try audioSession.setActive(false)
+        }
+        catch {
+            createAlert(AlertState.BadSession)
+        }
     }
     
     // action for playButton
@@ -224,6 +256,21 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             configureRecordUIState(.Ready)
             recordingLabel.text = BAD_RECORDING_MESSAGE
         }
+    }
+    
+    // helper function to create and present an alert
+    func createAlert(alert: AlertState) {
+        
+        let alert = UIAlertController(title: alert.rawValue,
+                                      message: nil,
+                                      preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .Cancel,
+                                         handler: nil)
+        
+        alert.addAction(cancelAction)
+        presentViewController(alert, animated: true, completion: nil)
     }
 }
 
